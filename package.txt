@@ -1,0 +1,28 @@
+# ShadCN CLI (به‌روز و صحیح)
+npx shadcn@latest init
+
+npx shadcn@latest add scroll-area sheet card separator 
+
+# فونت فارسی (مثلاً Vazir یا Shabnam از CDN یا npm)
+npm install @fontsource/vazirmatn
+
+# آیکون‌ها (Lucide)
+npm install lucide-react
+
+# انیمیشن خفن
+npm install framer-motion
+
+# Tailwind Plugins
+npm install class-variance-authority tailwind-variants
+
+# PostCSS for RTL (اگه RTL کار می‌کنی)
+npm install tailwindcss-rtl
+
+# توست نوتیفیکیشن
+npm install sonner
+
+# login sso
+npm install next-auth
+
+# چند زبانه شدن 
+npm install i18next react-i18next i18next-resources-to-backend
