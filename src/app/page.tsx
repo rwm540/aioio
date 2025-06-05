@@ -3,17 +3,16 @@
 
 import "./globals.css";
 import { Button } from "@/components/ui/button";
-import Link from "next/link"; // 💡 ممکن است دیگر نیازی به Link نباشد اگر فقط signIn استفاده می‌کنیم
 import { motion } from "framer-motion";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState} from 'react';
 import Image from 'next/image';
 import Loading from '@/components/Loading';
-import { signIn } from "next-auth/react"
-// 💡 اگر SnowfallBackground را به صورت جداگانه نگه داشته‌اید، این خط را اضافه کنید:
-// import SnowfallBackground from '@/components/SnowfallBackground';
+
 
 
 export default function Home() {
+  
+
   const [windowDimensions, setWindowDimensions] = useState({
     width: 0,
     height: 0,
@@ -96,7 +95,7 @@ export default function Home() {
       />
     );
   });
-    // 💡 پایان کد particles که می‌توان حذف کرد
+// 💡 پایان کد particles که می‌توان حذف کرد
 
 
   const containerVariants = {
@@ -125,9 +124,11 @@ export default function Home() {
   // 💡 تابع جدید برای مدیریت کلیک روی دکمه شروع
   const handleStartClick = async () => {
     setShowButtonLoading(true); // لودینگ را فعال کن
-    await signIn("google", { callbackUrl: "/chat" }); // فرآیند احراز هویت گوگل را شروع کن
+    
+    //await signIn("google", { callbackUrl: "/chat" }); // فرآیند احراز هویت گوگل را شروع کن
     // توجه: بعد از signIn، صفحه ریدایرکت می‌شود، بنابراین کد بعدی اجرا نمی‌شود
     // اگر ریدایرکت نشد (مثلا در صورت خطا)، باید setShowButtonLoading(false) را اینجا اضافه کنید.
+    window.location.href = "/chat";
   };
 
   // 💡 شرط نمایش کامپوننت Loading حالا شامل 'dataLoaded' و 'showButtonLoading' می‌شود.
@@ -140,14 +141,13 @@ export default function Home() {
   return (
     <motion.div
       className="relative flex flex-col items-center justify-center min-h-screen
-                 bg-gradient-to-br from-gray-800 via-blue-900 to-purple-900 // پس‌زمینه گرادیانت زمستانی‌تر
+                 bg-gradient-to-br from-gray-800 via-blue-900 to-purple-900
                  text-white text-center px-4 overflow-hidden"
       variants={containerVariants}
       initial="hidden"
       animate="visible"
     >
-      {/* 💡 اگر SnowfallBackground را به صورت جداگانه نگه داشته‌اید، اینجا اضافه کنید: */}
-      {/* <SnowfallBackground particleCount={100} particleOpacity={0.6} /> */}
+      
       {/* 💡 در غیر این صورت، از این div particles استفاده کنید (اگر حذف نکرده‌اید): */}
       <div className="absolute inset-0 z-0">{particles}</div>
 

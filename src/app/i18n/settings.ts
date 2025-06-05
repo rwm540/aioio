@@ -4,8 +4,8 @@
 export const fallbackLng = 'en';
 
 // آرایه‌ای از تمام کدهای زبان که می‌خواید پروژه‌تون ازشون پشتیبانی کنه.
-export const languages = ['en', 'fa', 'ar', 'fr', 'de', 'ru', 'zh', 'ko', 'ja'];
+export const languages = ['en', 'fa', 'ar', 'fr', 'de', 'ru', 'zh', 'ko', 'ja'] as const;
 
 // نام‌گذاری پیش‌فرض برای فایل‌های ترجمه (مثلاً common.json).
 // می‌تونید برای بخش‌های مختلف برنامه، نام‌گذاری‌های متفاوتی داشته باشید (مثلاً home.json, auth.json).
-export const defaultNS = 'common';
+export const defaultNS ='translation' as const;

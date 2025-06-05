@@ -1,44 +1,53 @@
 // app/i18n/index.ts
 
-import { createInstance } from 'i18next'; // برای ساخت یک نمونه جدید از i18next
-import resourcesToBackend from 'i18next-resources-to-backend'; // برای بارگذاری ترجمه‌ها از فایل‌ها
-import { initReactI18next } from 'react-i18next/initReactI18next'; // برای ادغام با React و هوک‌هایش
+import { createInstance } from 'i18next';
+import resourcesToBackend from 'i18next-resources-to-backend';
+import { initReactI18next } from 'react-i18next/initReactI18next';
+;
 
-// تنظیماتی که از فایل settings.ts ایمپورت کردیم.
 import { fallbackLng, languages, defaultNS } from './settings';
 
 // تابعی برای مقداردهی اولیه i18next در هر درخواست.
-const initI18next = async (lng = fallbackLng, ns = defaultNS) => {
+// تغییر: نوع `ns` را به `string | string[] | undefined` تغییر دهید.
+// این به آن اجازه می‌دهد که یک رشته عمومی یا یک آرایه از رشته‌ها را بپذیرد.
+const initI18next = async (lng = fallbackLng, ns: string | string[] | undefined = defaultNS) => {
   const i18nInstance = createInstance();
   await i18nInstance
-    .use(initReactI18next) // استفاده از هوک‌های React
+    .use(initReactI18next)
     .use(
-      // استفاده از resourcesToBackend برای بارگذاری فایل‌های JSON ترجمه
-      // از مسیر public/locales/${language}/${namespace}.json
-      resourcesToBackend((language, namespace) =>
+      resourcesToBackend((language: string, namespace: string) =>
         import(`../../public/locales/${language}/${namespace}.json`)
       )
     )
     .init({
-      lng, // زبان فعلی که باید بارگذاری بشه
-      ns, // نام‌گذاری (Namespace) فعلی
-      fallbackLng, // زبان جایگزین
-      supportedLngs: languages, // همه زبان‌های پشتیبانی شده
-      defaultNS, // نام‌گذاری پیش‌فرض
-      fallbackNS: defaultNS, // نام‌گذاری جایگزین (اگر ترجمه در namespace فعلی پیدا نشد)
-      // preload: اگر در سمت سرور هستیم، همه زبان‌ها رو پیش‌بارگذاری کن.
+      lng,
+      ns, // این خط الان `string | string[] | undefined` را می‌پذیرد.
+      fallbackLng,
+      supportedLngs: languages,
+      defaultNS,
+      fallbackNS: defaultNS,
       preload: typeof window === 'undefined' ? languages : [],
     });
   return i18nInstance;
 };
 
 // هوک useTranslation سمت سرور
-// این هوک رو در کامپوننت‌های سرور خودتون استفاده خواهید کرد تا متن‌ها رو ترجمه کنید.
-export async function useTranslation(lng, ns = defaultNS, options = {}) {
-  const i18nextInstance = await initI18next(lng, ns);
+export async function useTranslation(
+  lng: string,
+  ns: typeof defaultNS | string[] = defaultNS,
+  options: { keyPrefix?: string } = {}
+) {
+  const i18nextInstance = await initI18next(
+    lng,
+    Array.isArray(ns) ? ns : ns // اگر ns آرایه بود، همان آرایه را پاس بدهید.
+  );
+
   return {
-    // تابع `t` برای دریافت ترجمه‌ها
-    t: i18nextInstance.getFixedT(lng, Array.isArray(ns) ? ns[0] : ns, options.keyPrefix),
+    t: i18nextInstance.getFixedT(
+      lng,
+      Array.isArray(ns) ? ns[0] : ns, // اینجا می‌توانید از ns[0] استفاده کنید زیرا getFixedT یک رشته برای ns می‌خواهد.
+      options.keyPrefix
+    ),
     i18n: i18nextInstance,
   };
 }

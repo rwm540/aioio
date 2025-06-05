@@ -125,3 +125,44 @@ body {
     @apply bg-background text-foreground;
   }
 }
+
+
+/* برای مرورگرهای مبتنی بر WebKit (Chrome, Safari, Edge) */
+.custom-textarea-scrollbar::-webkit-scrollbar {
+  width: 8px; /* عرض اسکرول بار */
+  height: 8px; /* ارتفاع اسکرول بار برای اسکرول افقی */
+}
+
+.custom-textarea-scrollbar::-webkit-scrollbar-track {
+  background: #1f2937; /* رنگ مسیر اسکرول بار (gray-800 یا gray-900 تیره تر) */
+  border-radius: 10px;
+}
+
+.custom-textarea-scrollbar::-webkit-scrollbar-thumb {
+  background-color: #2563eb; /* رنگ شست اسکرول بار (blue-600) */
+  border-radius: 10px;
+  border: 2px solid #1f2937; /* حاشیه برای جدا کردن شست از مسیر */
+}
+
+.custom-textarea-scrollbar::-webkit-scrollbar-thumb:hover {
+  background-color: #3b82f6; /* رنگ شست در هاور (blue-500) */
+}
+
+.custom-textarea-scrollbar::-webkit-scrollbar-thumb:active {
+  background-color: #1d4ed8; /* رنگ شست در کلیک (blue-700) */
+}
+
+/* برای Firefox */
+.custom-textarea-scrollbar {
+  scrollbar-width: thin; /* 'auto' | 'thin' | 'none' */
+  scrollbar-color: #2563eb #1f2937; /* thumb color track color */
+}
+
+/* برای پنهان کردن اسکرول بار در صورت عدم نیاز (اختیاری و بیشتر برای عناصر دیگر) */
+.no-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+.no-scrollbar {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}
